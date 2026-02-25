@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Disease Risk Prediction & Natural Remedies System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏥 AI Disease Risk Prediction System</h1>
+            <p class="subtitle">Predict disease risk and discover natural remedies</p>
+            <div class="model-info-badge" id="modelInfoBadge" style="display: none;">
+                <span>Model Accuracy: <strong id="modelAccuracy">--</strong>%</span>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Input Form -->
+            <div class="form-section">
+                <h2>Patient Information</h2>
+                <form id="predictionForm">
+                    <div class="form-grid">
+                        <!-- Demographics -->
+                        <div class="form-group">
+                            <label for="Age">Age *</label>
+                            <input type="number" id="Age" name="Age" min="1" max="120" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Gender">Gender *</label>
+                            <select id="Gender" name="Gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Ethnicity">Ethnicity *</label>
+                            <select id="Ethnicity" name="Ethnicity" required>
+                                <option value="">Select Ethnicity</option>
+                                <option value="Caucasian">Caucasian</option>
+                                <option value="African American">African American</option>
+                                <option value="Asian">Asian</option>
+                                <option value="Hispanic">Hispanic</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Family_History">Family History *</label>
+                            <select id="Family_History" name="Family_History" required>
+                                <option value="">Select</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <!-- Lifestyle Factors -->
+                        <div class="form-group">
+                            <label for="Smoking">Smoking *</label>
+                            <select id="Smoking" name="Smoking" required>
+                                <option value="">Select</option>
+                                <option value="No">No</option>
+                                <option value="Occasional">Occasional</option>
+                                <option value="Daily">Daily</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Alcohol">Alcohol Consumption *</label>
+                            <select id="Alcohol" name="Alcohol" required>
+                                <option value="">Select</option>
+                                <option value="No">No</option>
+                                <option value="Social">Social</option>
+                                <option value="Frequent">Frequent</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Diet_Habits">Diet Habits *</label>
+                            <select id="Diet_Habits" name="Diet_Habits" required>
+                                <option value="">Select</option>
+                                <option value="Healthy">Healthy</option>
+                                <option value="Balanced">Balanced</option>
+                                <option value="High sugar">High sugar</option>
+                                <option value="Processed food">Processed food</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Physical_Activity">Physical Activity *</label>
+                            <select id="Physical_Activity" name="Physical_Activity" required>
+                                <option value="">Select</option>
+                                <option value="Low">Low</option>
+                                <option value="Moderate">Moderate</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+
+                        <!-- Medical History -->
+                        <div class="form-group">
+                            <label for="Pre_existing_Conditions">Pre-existing Conditions</label>
+                            <select id="Pre_existing_Conditions" name="Pre_existing_Conditions">
+                                <option value="">None</option>
+                                <option value="Asthma">Asthma</option>
+                                <option value="Diabetes">Diabetes</option>
+                                <option value="Hypertension">Hypertension</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Current_Medications">Current Medications</label>
+                            <select id="Current_Medications" name="Current_Medications">
+                                <option value="">None</option>
+                                <option value="Inhaler">Inhaler</option>
+                                <option value="Insulin">Insulin</option>
+                                <option value="Metformin">Metformin</option>
+                                <option value="Beta-blocker">Beta-blocker</option>
+                            </select>
+                        </div>
+
+                        <!-- Symptoms -->
+                        <div class="form-group">
+                            <label for="Symptom_Cough">Cough</label>
+                            <select id="Symptom_Cough" name="Symptom_Cough">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="Maybe">Maybe</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Symptom_Fever">Fever</label>
+                            <select id="Symptom_Fever" name="Symptom_Fever">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="Maybe">Maybe</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Symptom_ChestPain">Chest Pain</label>
+                            <select id="Symptom_ChestPain" name="Symptom_ChestPain">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="Maybe">Maybe</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Symptom_Fatigue">Fatigue</label>
+                            <select id="Symptom_Fatigue" name="Symptom_Fatigue">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="Maybe">Maybe</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Symptom_Duration">Symptom Duration *</label>
+                            <select id="Symptom_Duration" name="Symptom_Duration" required>
+                                <option value="">Select</option>
+                                <option value="1-3 days">1-3 days</option>
+                                <option value="1 week">1 week</option>
+                                <option value="2+ weeks">2+ weeks</option>
+                                <option value="1+ month">1+ month</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Symptom_Severity">Symptom Severity *</label>
+                            <select id="Symptom_Severity" name="Symptom_Severity" required>
+                                <option value="">Select</option>
+                                <option value="Mild">Mild</option>
+                                <option value="Moderate">Moderate</option>
+                                <option value="Severe">Severe</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Living_Area">Living Area *</label>
+                            <select id="Living_Area" name="Living_Area" required>
+                                <option value="">Select</option>
+                                <option value="Urban">Urban</option>
+                                <option value="Rural">Rural</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="predictBtn">
+                        <span id="btnText">🔮 Predict Disease Risk</span>
+                        <span id="btnLoader" class="loader" style="display: none;"></span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <h2>Prediction Results</h2>
+                
+                <div class="prediction-card" id="predictionCard">
+                    <div class="prediction-header">
+                        <h3 id="predictedDisease"></h3>
+                        <span class="confidence-badge" id="confidenceBadge"></span>
+                    </div>
+                    <div class="prediction-details">
+                        <p><strong>Category:</strong> <span id="diseaseCategory"></span></p>
+                        <p><strong>Recommended Specialist:</strong> <span id="specialist"></span></p>
+                    </div>
+                </div>
+
+                <div class="alternatives-section" id="alternativesSection" style="display: none;">
+                    <h3>Alternative Predictions</h3>
+                    <div id="alternativesList"></div>
+                </div>
+
+                <div class="remedies-section" id="remediesSection">
+                    <h3>🌿 Natural Remedies</h3>
+                    <div id="remediesList"></div>
+                </div>
+
+                <button class="reset-btn" onclick="resetForm()">🔄 New Prediction</button>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            <p>⚠️ <strong>Medical Disclaimer:</strong> This system is for educational purposes only. Always consult with healthcare professionals for medical advice and treatment.</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
